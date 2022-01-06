@@ -58,23 +58,27 @@ function updateSavedColumns() {
   });
 }
 
+const filterArray = (array) => {
+  const filteredArray = array.filter((item) => item !== null);
+  return filteredArray;
+};
+
 // Create DOM Elements for each list item
-function createItemEl(columnEl, column, item, index) {
-  // console.log('columnEl:', columnEl);
-  // console.log('column:', column);
-  // console.log('item:', item);
-  // console.log('index:', index);
+const createItemEl = (columnEl, column, item, index) => {
   // List Item
   const listEl = document.createElement('li');
   listEl.classList.add('drag-item');
   listEl.textContent = item;
   listEl.draggable = true;
   listEl.setAttribute('ondragstart', 'drag(event)');
+  listEl.contentEditable = true;
+  listEl.id = index;
+  listEl.setAttribute('onfocusout', `updateItem(${index}, ${column})`);
   columnEl.appendChild(listEl);
-}
+};
 
 // Update Columns in DOM - Reset HTML, Filter Array, Update localStorage
-function updateDOM() {
+const updateDOM = () => {
   if (!updatedOnLoad) {
     getSavedColumns();
   }
@@ -83,25 +87,40 @@ function updateDOM() {
   backlogListArray.forEach((backlogItem, index) => {
     createItemEl(backlogList, 0, backlogItem, index);
   });
+  backlogListArray = filterArray(backlogListArray);
 
   progressList.textContent = '';
   progressListArray.forEach((progressItem, index) => {
-    createItemEl(progressList, 0, progressItem, index);
+    createItemEl(progressList, 1, progressItem, index);
   });
+  progressListArray = filterArray(progressListArray);
 
   completeList.textContent = '';
   completeListArray.forEach((completeItem, index) => {
-    createItemEl(completeList, 0, completeItem, index);
+    createItemEl(completeList, 2, completeItem, index);
   });
+  completeListArray = filterArray(completeListArray);
 
   onHoldList.textContent = '';
   onHoldListArray.forEach((onHoldItem, index) => {
-    createItemEl(onHoldList, 0, onHoldItem, index);
+    createItemEl(onHoldList, 3, onHoldItem, index);
   });
+  onHoldListArray = filterArray(onHoldListArray);
+
   // Run getSavedColumns only once, Update Local Storage
   updatedOnLoad = true;
   updateSavedColumns();
-}
+};
+
+const updateItem = (id, column) => {
+  const selectedArray = listArrays[column];
+  const selectedColumnEl = columnsList[column].children;
+  if (!selectedColumnEl[id].textContent) {
+    delete selectedArray[id];
+    console.log(selectedArray);
+  }
+  updateDOM();
+};
 
 const addToColumn = (column) => {
   const itemText = addItems[column].textContent;
