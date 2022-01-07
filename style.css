@@ -1,4 +1,6 @@
-/* Trees Image - Pexels: https://www.pexels.com/photo/photo-of-trees-in-forest-3801030/ */
+/* Space Image - Pexels: https://www.pexels.com/pt-br/foto/galaxia-da-via-lactea-durante-a-noite-1252890/ */
+/*Color palette from https://mycolor.space/?hex=%23845EC2&sub=1*/
+
 @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 
 html {
@@ -6,15 +8,15 @@ html {
 }
 
 :root {
-  --column-1: #a2622d;
-  --column-2: #1b6161;
-  --column-3: #248224;
-  --column-4: #a22d22;
+  --column-1: #845ec2;
+  --column-2: #296073;
+  --column-3: #3596b5;
+  --column-4: #adc5cf;
 }
 
 body {
   margin: 0;
-  background: url('./trees.jpg');
+  background: url('./space.jpg');
   background-size: cover;
   background-position: 50% 60%;
   background-attachment: fixed;
